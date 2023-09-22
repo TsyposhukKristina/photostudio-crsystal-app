@@ -5,7 +5,7 @@
   "author": "em000324@g.bstu.by",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack serve--mode=development",
+    "dev": "webpack serve --mode=development",
     "deploy": "firebase deploy"
   },
   "devDependencies": {
