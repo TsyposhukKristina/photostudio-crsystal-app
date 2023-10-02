@@ -1,0 +1,49 @@
+.main_page{
+    text-align: center;
+}
+.text_mainpage{
+    width: 960px;
+    flex-direction: column;
+    justify-content: center;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-left: 93px;
+}
+.text_mainpage_otstup_first{
+    height: 45px;
+}
+
+.text_mainpage_otstup{
+    height: 16px;
+}
+
+.border_button{
+    display: flex;
+    align-items: center;
+    width: 353px;
+    height: 62px;
+    flex-shrink: 0;
+    border: 1.5px solid #000;
+    background: #FFF;
+    flex-direction: column;
+    justify-content: center;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 41px;
+    margin-left: 336px;
+}
+
+.groupofphotos{
+    padding-top: 55px;
+    padding-left: 41px;
+}
