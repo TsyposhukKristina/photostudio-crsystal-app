@@ -11,7 +11,7 @@ export class MainPage extends Component{
         new Component(this.node, 'p', ['text_mainpage'], "В студии представлены 3 фотозала - “Деловой”, “Циклорама” и “Комфорт”.");
         new Component(this.node, 'p', ['text_mainpage_otstup'], " ");
         new Component(this.node, 'p', ['text_mainpage'], "Наши залы идеально подходят для творческих фотопроектов и коммерческих фотосъемок. Выберите понравившийся зал и забронируйте его:");
-        new Component(this.node, 'p', ['border_button'], "Перейти к залам");
+        new Component(this.node, 'a', ['border_button'], "Перейти к залам", ["href"], ["#goods"]);
         new Component(this.node, "img", ["groupofphotos"], null, ['src', 'alt'], ["./assets/3photointro.png", 'группафото']);
     }
 }

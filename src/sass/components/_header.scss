@@ -5,6 +5,10 @@
 
 }
 
+.logo_group {
+    display: flex;
+}
+
 .header{
     top: 0;
     left: 0;
@@ -21,6 +25,7 @@
     font-weight: 300;
     line-height: normal;
     padding-left: 10px;
+    padding-top: 8px;
 }
 
 .text-cabinet{
