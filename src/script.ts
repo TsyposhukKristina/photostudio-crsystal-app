@@ -9,6 +9,11 @@ import { GoodsPage } from './pages/GoodsPage';
 import { RegPage } from './pages/RegPage';
 import { ReservationPage } from './pages/ReservationPage';
 import { StatPage } from './pages/StatPage';
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../configFB";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
+initializeApp(firebaseConfig);
 
 class App {
         constructor(parrent: HTMLElement) {
@@ -37,4 +42,7 @@ declare global {
     }
 }
 
-window.app = new App(document.body);
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+    if (!window.app) window.app = new App(document.body);
+});

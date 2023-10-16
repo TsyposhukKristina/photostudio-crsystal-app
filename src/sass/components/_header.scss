@@ -9,6 +9,12 @@
     display: flex;
 }
 
+.menu {
+    display: flex;
+    gap: 100px;
+    padding-left: 0px;
+}
+
 .header{
     top: 0;
     left: 0;
@@ -28,6 +34,17 @@
     padding-top: 8px;
 }
 
+.text-zaly{
+    text-align: center;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    padding-left: 300px;
+    width: 50px;
+}
+
 .text-cabinet{
     text-align: center;
     font-family: Inter;
@@ -35,5 +52,5 @@
     font-style: normal;
     font-weight: 300;
     line-height: normal;
-    padding-left: 702px;
+    padding-left: 315px;
 }
