@@ -1,7 +1,8 @@
 import { Component } from "../abstract/Component";
+import { TServices } from "../abstract/Types";
 
 export class Header extends Component{
-    constructor (parrent: HTMLElement) {
+    constructor (parrent: HTMLElement, private services: TServices) {
         super(parrent, "div", ["header"]);
 
         const forhref = new Component (this.node, "a", ['logo_group'], null, ['href'], ['#']);

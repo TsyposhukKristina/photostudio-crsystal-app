@@ -1,7 +1,8 @@
 import { Component } from "../abstract/Component";
+import { TServices } from "../abstract/Types";
 
 export class GoodsPage extends Component{
-    constructor(parrent: HTMLElement) {
+    constructor(parrent: HTMLElement, private services: TServices) {
         super(parrent, 'div', ['goods_page']);
 
         new Component (this.node, 'p', null, "Страница для каталога");

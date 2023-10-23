@@ -12,25 +12,30 @@ import { StatPage } from './pages/StatPage';
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../configFB";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { LogicService } from './servises/LogicService';
 
 initializeApp(firebaseConfig);
+
+const services = {
+    logicService: new LogicService()
+  };
 
 class App {
         constructor(parrent: HTMLElement) {
         const wrap = new Component (parrent, "div", ["wrapper"]);
-        new Header(wrap.node);
+        new Header(wrap.node, services);
         const main = new Component(wrap.node, 'main');
         //new MainPage(main.node);
         const links = {
-            "#": new MainPage(main.node),
-            "#client": new ClientPage(main.node),
-            "#goods": new GoodsPage(main.node),
-            "#reg": new RegPage(main.node),
-            "#reservation": new ReservationPage(main.node),
-            "#stat": new StatPage(main.node)
+            "#": new MainPage(main.node, services),
+            "#client": new ClientPage(main.node, services),
+            "#goods": new GoodsPage(main.node, services),
+            "#reg": new RegPage(main.node, services),
+            "#reservation": new ReservationPage(main.node, services),
+            "#stat": new StatPage(main.node, services)
         };
 
-        new Router(links);
+        new Router(links, services);
         new Footer(wrap.node);
         
     }
@@ -44,5 +49,6 @@ declare global {
 
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
+    services.logicService.user = user;
     if (!window.app) window.app = new App(document.body);
 });

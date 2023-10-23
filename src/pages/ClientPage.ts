@@ -1,10 +1,11 @@
 import { Component } from "../abstract/Component";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { TServices } from "../abstract/Types";
 
 export class ClientPage extends Component {
    // regButton: Component;
    // outButton: Component;
-    constructor(parrent: HTMLElement) {
+    constructor(parrent: HTMLElement, private services: TServices) {
         super(parrent, 'div', ['client_page']);
 
         new Component (this.node, 'p', null, "Личный кабинет с корзиной клиента");

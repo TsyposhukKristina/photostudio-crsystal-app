@@ -1,10 +1,12 @@
 import { Component } from "../abstract/Component";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { TServices } from "../abstract/Types";
 
 export class RegPage extends Component{
     regButton: Component;
     outButton: Component;
-    constructor(parrent: HTMLElement) {
+    
+    constructor(parrent: HTMLElement, private services: TServices) {
         super(parrent, 'div', ['reg_page']);
 
         new Component (this.node, 'p', null, "Страница для авторизации");
@@ -16,52 +18,34 @@ export class RegPage extends Component{
         this.regButton = new Component (this.node, 'input', null, null, ['type', 'value'], ['button', 'войти']);
 
         this.regButton.node.onclick = () =>{
-            this.authWithGoogle();
+            this.services.logicService.authWithGoogle();
         }
 
         this.outButton = new Component (this.node, 'input', null, null, ['type', 'value'], ['button', 'выйти']);
 
         this.outButton.node.onclick = () =>{
-            this.outFromGoogle();
+            this.services.logicService.outFromGoogle();
         }
 
-        const auth = getAuth();
-        const user = auth.currentUser;
+     
+        const user = this.services.logicService.user;
         if (user) {
             this.toggleButtons(true);
         } else {
             this.toggleButtons(false);
         }    
-        
-    }
 
-    authWithGoogle(): void{
-        const auth = getAuth();
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-        .then(() => {
-            this.toggleButtons(true)
-            window.location.reload();
-        })
-        .catch(() => {
-            console.log('bad');
-        })
-    }
-
-    outFromGoogle(): void { 
-        const auth = getAuth();
-        signOut(auth)
-        .then(()=> {
+        this.services.logicService.addListener("userAuth", (isAuthUser) => {
+            if (isAuthUser) {
+            this.toggleButtons(true);
+            } else {
             this.toggleButtons(false);
-            window.location.reload();
-        })
-        .catch(()=>{
-            console.log("out bad");
+            }
         });
     }
 
     toggleButtons(isAuthUser: boolean): void{
-        if (isAuthUser){
+        if (isAuthUser) {
             this.regButton.myRemove();
             this.outButton.myRender();
         } else {

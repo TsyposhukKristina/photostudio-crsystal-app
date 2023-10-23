@@ -1,8 +1,9 @@
 import { Component } from "../abstract/Component";
 import { getAuth } from "firebase/auth";
+import { TServices } from "../abstract/Types";
 
 export class Router{
-    constructor(public links: Record<string, Component>){
+    constructor(public links: Record<string, Component>, private services: TServices){
         this.openPage();
 
         window.onhashchange = () => {
@@ -17,13 +18,24 @@ export class Router{
 
        //this.links["#" + url].myRender();
 
-        const auth = getAuth();
-        const user = auth.currentUser;
+       const user = this.services.logicService.user;
+       const emailAdmin = user && user.email === "em000324@g.bstu.by"
 
         console.log(user);
-
+        console.log(emailAdmin);
 
         if ((url === "reservation" || url === "stat" || url === "client") && !user) {
+            this.links["#reg"].myRender();
+        } else if ( url === "client" && emailAdmin) {
+            this.links["#stat"].myRender();
+        } else if ( url === "stat" && user && !emailAdmin) {
+            this.links["#client"].myRender();
+        } else {
+            this.links["#" + url].myRender();
+        }  
+
+
+        /*if ((url === "reservation" || url === "stat" || url === "client") && !user) {
             this.links["#reg"].myRender();
         } else if ( url === "client" && user && user.email === "em000324@g.bstu.by") {
             this.links["#stat"].myRender();
