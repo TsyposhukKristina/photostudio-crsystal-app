@@ -19,7 +19,7 @@ export class Router{
        //this.links["#" + url].myRender();
 
        const user = this.services.authService.user;
-       const emailAdmin = user && user.email === "em000324@g.bstu.by"
+       const emailAdmin = this.services.logicService;
 
         console.log(user);
         console.log(emailAdmin);
