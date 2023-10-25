@@ -18,24 +18,24 @@ export class RegPage extends Component{
         this.regButton = new Component (this.node, 'input', null, null, ['type', 'value'], ['button', 'войти']);
 
         this.regButton.node.onclick = () =>{
-            this.services.logicService.authWithGoogle();
+            this.services.authService.authWithGoogle();
         }
 
         this.outButton = new Component (this.node, 'input', null, null, ['type', 'value'], ['button', 'выйти']);
 
         this.outButton.node.onclick = () =>{
-            this.services.logicService.outFromGoogle();
+            this.services.authService.outFromGoogle();
         }
 
      
-        const user = this.services.logicService.user;
+        const user = this.services.authService.user;
         if (user) {
             this.toggleButtons(true);
         } else {
             this.toggleButtons(false);
         }    
 
-        this.services.logicService.addListener("userAuth", (isAuthUser) => {
+        this.services.authService.addListener("userAuth", (isAuthUser) => {
             if (isAuthUser) {
             this.toggleButtons(true);
             } else {

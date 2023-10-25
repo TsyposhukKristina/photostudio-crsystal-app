@@ -13,11 +13,14 @@ import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../configFB";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { LogicService } from './servises/LogicService';
+import { AuthService } from './servises/AuthService';
+
 
 initializeApp(firebaseConfig);
 
 const services = {
-    logicService: new LogicService()
+    logicService: new LogicService(),
+    authService: new AuthService()
   };
 
 class App {
@@ -49,6 +52,6 @@ declare global {
 
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
-    services.logicService.user = user;
+    services.authService.user = user;
     if (!window.app) window.app = new App(document.body);
 });
