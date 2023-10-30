@@ -5,4 +5,5 @@ import { TServices } from "../abstract/Types";
   
   export class LogicService extends Observer {
     emailAdmin: string | null = "em000324@g.bstu.by"
+      user: any;
   }

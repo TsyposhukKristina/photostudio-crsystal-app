@@ -14,13 +14,14 @@ import { firebaseConfig } from "../configFB";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { LogicService } from './servises/LogicService';
 import { AuthService } from './servises/AuthService';
+import { DBService } from './servises/DBService';
 
-
-initializeApp(firebaseConfig);
+const DBFirestore = initializeApp(firebaseConfig);
 
 const services = {
     logicService: new LogicService(),
-    authService: new AuthService()
+    authService: new AuthService(),
+    dbService: new DBService(DBFirestore)
   };
 
 class App {
@@ -53,5 +54,12 @@ declare global {
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
     services.authService.user = user;
-    if (!window.app) window.app = new App(document.body);
+    services.dbService
+    .getDataUser(user)
+    .then(() => {
+      if (!window.app) window.app = new App(document.body);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
