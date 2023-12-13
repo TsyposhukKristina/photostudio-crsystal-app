@@ -12,14 +12,19 @@ export type TServices = {
     name: string;
     fotoUrl: string;
     email: string;
-    //basket: TGoodBasket[];
+    basket: TGoodBasket[];
   };
 
   export type TGood = {
     name: string;
     numbers: number;
-    price: number;
-    square: number;
+    price: string;
+    square: string;
     url: string;
-    //id: string;
+    id: string;
+  };
+
+  export type TGoodBasket = {
+    good: TGood;
+    count: number;
   };

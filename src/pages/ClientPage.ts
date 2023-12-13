@@ -1,66 +1,25 @@
 import { Component } from "../abstract/Component";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
-import { TServices } from "../abstract/Types";
+import { TGoodBasket, TServices } from "../abstract/Types";
+import { CartBasket } from "../Common/CartBasket";
 
 export class ClientPage extends Component {
-   // regButton: Component;
-   // outButton: Component;
+   divBasket: Component;
+
     constructor(parrent: HTMLElement, private services: TServices) {
-        super(parrent, 'div', ['client_page']);
+      super(parrent, 'div', ['client_page']);
 
-        new Component (this.node, 'p', null, "Личный кабинет с корзиной клиента");
+      //new Component (this.node, 'p', null, "Личный кабинет с корзиной клиента");
 
-       /* this.regButton = new Component (this.node, 'input', null, null, ['type', 'value'], ['button', 'войти']);
-
-        this.regButton.node.onclick = () =>{
-            this.authWithGoogle();
-        }
-
-        this.outButton = new Component (this.node, 'input', null, null, ['type', 'value'], ['button', 'выйти']);
-
-        this.outButton.node.onclick = () =>{
-            this.outFromGoogle();
-        }
-
-        const auth = getAuth();
-        const user = auth.currentUser;
-        if (user) {
-            this.toggleButtons(true);
-        } else {
-            this.toggleButtons(false);
-        }    
+      this.divBasket = new Component (this.node, 'div', ['client__goods']); 
+        
+      services.dbService.addListener('goodInBasket', (good) => {
+        this.putGoodsInBasket(this.divBasket, good as TGoodBasket)
+      });
     }
+        
 
-    authWithGoogle(): void{
-        const auth = getAuth();
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-        .then(() => {
-            this.toggleButtons(true)
-        })
-        .catch(() => {
-            console.log('bad');
-        })
-    }
-
-    outFromGoogle(): void { 
-        const auth = getAuth();
-        signOut(auth)
-        .then(()=> {
-            this.toggleButtons(false)
-        })
-        .catch(()=>{
-            console.log("out bad");
-        });
-    }
-
-    toggleButtons(isAuthUser: boolean): void{
-        if (isAuthUser){
-            this.regButton.myRemove();
-            this.outButton.myRender();
-        } else {
-            this.regButton.myRender();
-            this.outButton.myRemove();
-        }*/
-    }
-}
+    putGoodsInBasket(teg: Component, product: TGoodBasket) {
+      new CartBasket(teg.node, this.services, product);
+       }
+  }

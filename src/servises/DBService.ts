@@ -1,14 +1,14 @@
 import { FirebaseApp } from "firebase/app";
 import { Observer } from "../abstract/Observer";
-import { Firestore, collection, doc, getDoc, getDocs, getFirestore, setDoc } from "firebase/firestore";
-import { TDataUser, TGood } from "../abstract/Types";
+import { Firestore, collection, doc, getDoc, getDocs, getFirestore, setDoc, DocumentData} from "firebase/firestore";
+import { TDataUser, TGood, TGoodBasket } from "../abstract/Types";
 import { User } from "firebase/auth";
 import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 export class DBService extends Observer {
-    addGoodInBasket(user: any, data: TGood) {
+   /* addGoodInBasket(user: any, data: TGood) {
         throw new Error("Method not implemented.");
-    }
+    }*/
     private db: Firestore = getFirestore(this.DBFirestore);
   
     dataUser: TDataUser | null = null;
@@ -28,9 +28,10 @@ export class DBService extends Observer {
         const good = {
           name: data.name as string,
           numbers: data.numbers as number,
-          square: data.numbers as number,
-          price: data.price as number,
-          url: url
+          square: data.square as string,
+          price: data.price as string,
+          url: url,
+          id: doc.id
         };
         return good;
       });
@@ -58,5 +59,30 @@ export class DBService extends Observer {
           this.dataUser = (docSetSnap.data() as TDataUser) || null;
           console.log("create document!");
         }
+      }
+
+      async addGoodInBasket(user: User | null, good: TGood): Promise<void> {
+        if (!user || !this.dataUser || good.numbers === 0) return;
+    
+        const index = this.dataUser.basket.findIndex((el) => el.good.id === good.id);
+        if (index >= 0) return;
+    
+        const newUser = {} as TDataUser;
+        Object.assign(newUser, this.dataUser);
+    
+        const goodBasket = {
+          good: good,
+          count: 1
+        } as TGoodBasket;
+    
+        newUser.basket.push(goodBasket);
+
+        await setDoc(doc(this.db, "users", user.uid), newUser)
+        .then(() => {
+          this.dataUser = newUser;
+          this.dispatch('goodInBasket', goodBasket);
+        })
+        .catch(() => {});
+        
       }
 }
