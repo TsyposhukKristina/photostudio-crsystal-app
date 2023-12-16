@@ -1,7 +1,9 @@
+import { User } from "firebase/auth";
 import { Component } from "../abstract/Component";
 import { TGood, TGoodBasket, TServices } from "../abstract/Types";
 
 export class CartBasket extends Component{
+  btnDel: Component;
 
     constructor(
         parrent: HTMLElement,
@@ -50,7 +52,7 @@ export class CartBasket extends Component{
         ["+", "button"]
       );*/
 
-      const btnDel = new Component(
+      this.btnDel = new Component(
         this.node,
         "input",
         ["cart_basket__del"],
@@ -58,5 +60,23 @@ export class CartBasket extends Component{
         ["value", "type"],
         ["удалить", "button"]
       );
+
+      this.btnDel.node.onclick = () => {
+        (this.btnDel.node as HTMLInputElement).disabled = true;
+        this.delGoodFromBasket()
+      };
 }
+
+delGoodFromBasket() {
+  const user = this.services.authService.user;
+  this.services.dbService.delGoodFromBasket(user, this.data)
+  .then(() => {
+    this.myRemove();
+  })
+  .catch(() => {
+      (this.btnDel.node as HTMLInputElement).disabled = false;
+    });
+}
+
+
 }

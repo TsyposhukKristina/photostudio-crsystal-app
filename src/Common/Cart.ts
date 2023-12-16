@@ -46,8 +46,15 @@ export class Cart extends Component {
       this.btnBasket.node.onclick = () => {
         (this.btnBasket.node as HTMLInputElement).disabled = true;
         this.addGoodInBasket();
-      }
+      };
+
+      services.dbService.addListener('delGoodFromBasket', (idGood) => {
+         if (idGood === data.id) {
+          (this.btnBasket.node as HTMLInputElement).disabled = false;
+         }
+      })
     }
+
 
     addGoodInBasket() {
       const user = this.services.authService.user;

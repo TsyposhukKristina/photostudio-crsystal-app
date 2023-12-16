@@ -12,6 +12,11 @@ export class ClientPage extends Component {
       //new Component (this.node, 'p', null, "Личный кабинет с корзиной клиента");
 
       this.divBasket = new Component (this.node, 'div', ['client__goods']); 
+      if (services.dbService.dataUser) {
+        services.dbService.dataUser.basket.forEach(el => {
+          this.putGoodsInBasket(this.divBasket, el)
+        })
+      }
         
       services.dbService.addListener('goodInBasket', (good) => {
         this.putGoodsInBasket(this.divBasket, good as TGoodBasket)

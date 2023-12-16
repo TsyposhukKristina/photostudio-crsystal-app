@@ -85,4 +85,24 @@ export class DBService extends Observer {
         .catch(() => {});
         
       }
+
+      async delGoodFromBasket(user: User | null, good: TGoodBasket): Promise<void> {
+        if (!user || !this.dataUser) return;
+
+        const newBasket = this.dataUser.basket.filter((el) => el.good.id !== good.good.id);
+
+        const newUser = {} as TDataUser;
+        Object.assign(newUser, this.dataUser);
+        newUser.basket = newBasket;
+
+        await setDoc(doc(this.db, "users", user.uid), newUser)
+        .then(() => {
+          this.dataUser = newUser;
+          this.dispatch('delGoodFromBasket', good.good.id);
+        })
+        .catch(() => {});
+    
+        
+        
+      }
 }
